@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+float *load_matrix(char *filename, int *n, int *m);
+void sumar(float *A, float *B, float *C, int n, int m);
+void copiar(float *A, float *B, int n, int m);
+void dividir(float *A, float *B, int n, int m, int fact);
+void multiplicacion(float *A, float *B, float *C, int n, int m);
+int factorial(int n);
+int main(int argc, char **argv){
+  float *matrix1;
+  float *matrix2;
+  float *matrix3;
+  float *matrix4;
+  float *matrix5;
+  int n_row, n_cols;
+  int i, j, k,l;
+  float new=0;
+
+  matrix1 = load_matrix(argv[1], &n_row, &n_cols);
+  matrix2 = load_matrix(argv[1], &n_row, &n_cols);
+  matrix3 = load_matrix(argv[1], &n_row, &n_cols);
+  matrix4 = load_matrix(argv[1], &n_row, &n_cols);
+  matrix5 = load_matrix(argv[1], &n_row, &n_cols);
+
+  for(l=1;l<10;l++){
+    for(k=0;k<l;k++){
+      multiplicacion(matrix2,matrix1,matrix3,n_row,n_cols);
+      copiar(matrix3,matrix2,n_row,n_cols);
+    }
+    dividir(matrix3,matrix4,n_row,n_cols,l);
+    sumar(matrix1,matrix4,matrix5,n_row,n_cols);
+    copiar(matrix5,matrix4,n_row,n_cols);
+  }
+
+  printf("%d \n",factorial(10));
+
+ for(i=0;i<n_row;i++){
+    for(j=0;j<n_cols;j++){
+      printf(" %f ", matrix5[i*n_cols + j]);
+    }
+    printf("\n");
+  }
+
+  return 0;
+}
+
+
+int factorial(n){
+  if(n==0){
+    return 1;
+  }
+  else{
+    return n*factorial(n-1);
+  }
+}
+
+void copiar(float *A, float *B, int n, int m){
+
+  int i, j;
+ 
+  for(i=0;i<n;i++){
+    for(j=0;j<m;j++){
+      B[i*m+j]=A[i*m+j];
+    }
+  }
+ 
+}
+
+void dividir(float *A, float *B, int n, int m, int fact){
+
+  int i, j;
+ 
+  for(i=0;i<n;i++){
+    for(j=0;j<m;j++){
+      B[i*m+j]=A[i*m+j]/factorial(fact);
+    }
+  }
+ 
+}
+
+void sumar(float *A, float *B, float *C, int n, int m){
+
+  int i, j;
+ 
+  for(i=0;i<n;i++){
+    for(j=0;j<m;j++){
+      C[i*m+j]=A[i*m+j]+B[i*m+j];
+    }
+  }
+ 
+}
+
+void multiplicacion(float *A, float *B, float *C, int n, int m){
+
+  int i, j, k;
+ 
+  for(i=0;i<n;i++){
+    for(j=0;j<m;j++){
+      C[i*m+j]=0.0;
+      for(k=0;k<n;k++){
+	C[i*m+j]+=A[i*m+k]*B[k*m+j];
+      }
+    }
+  }
+ 
+}
+
+
+
+float *load_matrix(char *filename, int *n, int *m){
+  float *matrix;
+  FILE *in;
+  int n_row, n_cols;
+  int i;
+  int j;
+
+  if(!(in=fopen(filename, "r"))){
+    printf("Problem opening file %s\n", filename);
+    exit(1);
+  }
+
+  fscanf(in, "%d %d\n", &n_row, &n_cols);
+  printf("%d %d\n", n_row, n_cols);
+
+  matrix = malloc(n_row * n_cols * sizeof(float));
+
+  for(i=0;i<n_row;i++){
+    for(j=0;j<n_cols;j++){
+      fscanf(in, "%f", &matrix[i*n_cols + j]);
+    }
+  }    
+  *n = n_row;
+  *m = n_cols;
+  return matrix;
+}
+

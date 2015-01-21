@@ -1,0 +1,13 @@
+David Esteban Bernal Neira
+200921359
+Taller 4 Laboratorio Metodos Computacionales
+Para correr este codigo se debe compilar con el comando cc y luego ejecutar el archivo de salida de la forma ./a.out matrix.dat, donde matrix.dat es un archivo de texto con el formato propuesto por el curso para que sea capaz de ser leido por el archivo dado en la clase magistral. El formato es:
+n m
+A11 A12 ... A1m
+A21 A22 ... A2m
+.   ...      .
+.            .
+.            .
+An1 An2 ... Anm
+Donde n es el numero de filas, m el numero de columnas y Aij el elemento en la posicion i,j de la matriz A.
+En esta carpeta se encuentran 3
